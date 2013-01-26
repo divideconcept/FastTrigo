@@ -33,6 +33,7 @@ FastTrigo 1.0 (c) 2013 Robin Lobel
     standard: 0.0707372 -0.1455   0.877583 -0.989992
 
   Speed test with default accuracy (MSVC2012 x64):
+  
     FastTrigo::sqrt speed up: x2.5 (from standard sqrt)
     FastTrigo::atan2 speed up: x2.3 (from standard atan2)
     FastTrigo::sin/cos speed up: x1.9 (from standard sin/cos)
@@ -43,6 +44,7 @@ FastTrigo 1.0 (c) 2013 Robin Lobel
     FastTrigoSSE::sincos speed up: x6.2 (from standard sin+cos)
 
   Speed test with FASTTRIGOACCURATE defined (MSVC2012 x64):
+  
     FastTrigo::sqrt speed up: x1.5 (from standard sqrt)
     FastTrigo::atan2 speed up: x1.7 (from standard atan2)
     FastTrigo::sin/cos speed up: x1.6 (from standard sin/cos)
