@@ -4,7 +4,9 @@ FastTrigo 1.0 (c) 2013 Robin Lobel
   Fast yet accurate trigonometric functions
 
   FastTrigo: best approximated algorithms found on the web (see fasttrigo.cpp for detailed references)
+
   FastTrigoQt: convenience functions if using QVector2D/QVector3D class from Qt, based on FastTrigo
+
   FastTrigoSSE: packed trigonometry ported from FastTrigo algorithms (using SSE, SSE2, SSE3)
 
   Default accuracy:
