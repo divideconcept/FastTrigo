@@ -8,6 +8,7 @@ FastTrigo 1.0 (c) 2013 Robin Lobel
   FastTrigoSSE: packed trigonometry ported from FastTrigo algorithms (using SSE, SSE2, SSE3)
 
   Default accuracy:
+  
     FastTrigo::sqrt max error: 0.032% (average error: 0.0094%)
     FastTrigo::atan2 max error: 0.024% (0.0015 radians, 0.086 degrees)
     FastTrigo::cos max error: 0.06%
@@ -16,14 +17,17 @@ FastTrigo 1.0 (c) 2013 Robin Lobel
   You can optionally define FASTTRIGOACCURATE to be even more accurate:
 
   result samples for sqrt:
+  
     default:  4.27122 8.24475 0.58313  3.60468
     accurate: 4.272   8.24621 0.583095 3.60555
     standard: 4.272   8.24621 0.583095 3.60555
   result samples for atan2:
+  
     default:  1.21309 -2.89625 2.60208 0.587799
     accurate: 1.21202 -2.89661 2.60118 0.588
     standard: 1.21203 -2.89661 2.60117 0.588003
   result samples for cos:
+  
     default:  0.0706043 -0.144992 0.877807 -0.989482
     accurate: 0.0707372 -0.1455   0.877583 -0.989992
     standard: 0.0707372 -0.1455   0.877583 -0.989992
