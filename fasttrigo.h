@@ -39,7 +39,7 @@
   FTA::sin_ps/cos_ps speed up: x4.3 (from standard sin/cos)
   FTA::sincos_ps speed up: x5.2 (from standard sin+cos)
 
-  Distributed under BSD License
+  Distributed under Revised BSD License
 */
 
 #ifndef FASTTRIGO_H
