@@ -37,8 +37,9 @@ namespace FT
 
 float FT::sqrt(float squared)
 {
-    static bool DAZFTZdone=false;
-    if(!DAZFTZdone) { _mm_setcsr( _mm_getcsr() | 0x8040 ); DAZFTZdone=true; }
+    static int csr=0;
+    if(!csr) csr=_mm_getcsr() | 0x8040; //DAZ,FTZ (divide by zero=0)
+    _mm_setcsr(csr);
     return _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(squared)))*squared;
 }
 float FT::length(float x, float y)
@@ -122,8 +123,9 @@ void FT::sincos(float angle, float *sin, float *cos){
 //PACKED SCALAR
 __m128 FT::sqrt_ps(__m128 squared)
 {
-    static bool DAZFTZdone=false;
-    if(!DAZFTZdone) { _mm_setcsr( _mm_getcsr() | 0x8040 ); DAZFTZdone=true; }
+    static int csr=0;
+    if(!csr) csr=_mm_getcsr() | 0x8040; //DAZ,FTZ (divide by zero=0)
+    _mm_setcsr(csr);
     return _mm_mul_ps(_mm_rsqrt_ps(squared),squared);
 }
 __m128 FT::length_ps(__m128 x, __m128 y)
