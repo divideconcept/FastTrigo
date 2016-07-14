@@ -15,7 +15,6 @@
 const float invtwopi=0.1591549f;
 const float twopi=6.283185f;
 const float threehalfpi=4.7123889f;
-const float invhalfpi=0.6366198f;
 const float pi=3.141593f;
 const float halfpi=1.570796f;
 const float quarterpi=0.7853982f;
