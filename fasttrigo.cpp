@@ -199,19 +199,16 @@ __m128 FT::sin_ps(__m128 angle){
     return FT::cos_ps(_mm_sub_ps(_mm_set1_ps(halfpi),angle));
 }
 void FT::sincos_ps(__m128 angle, __m128 *sin, __m128 *cos){
+    __m128 anglesign=_mm_or_ps(_mm_set1_ps(1.f),_mm_and_ps(SIGNMASK,angle));
+
     //clamp to the range 0..2pi
 
-    //fmod(angle,twopi)
-    __m128i dividedangle=_mm_cvttps_epi32(_mm_mul_ps(angle,_mm_set1_ps(invtwopi)));
-    dividedangle=_mm_sub_epi32(dividedangle,_mm_srli_epi32(dividedangle,31)); //substract -1 if negative
-    angle=_mm_sub_ps(angle,_mm_mul_ps(_mm_cvtepi32_ps(dividedangle),_mm_set1_ps(twopi)));
-    //if SSE4.1 is always available, comment the 3 lines above and uncomment the line below
-    //angle=_mm_sub_ps(angle,_mm_mul_ps(_mm_floor_ps(_mm_mul_ps(angle,_mm_set1_ps(invtwopi))),_mm_set1_ps(twopi))); //faster if SSE4.1 is always available
-
-    __m128 sinmultiplier=_mm_xor_ps(_mm_set1_ps(1.f),_mm_and_ps(_mm_cmplt_ps(angle,_mm_set1_ps(0.f)),_mm_and_ps(_mm_cmpge_ps(angle,_mm_set1_ps(-pi)),SIGNMASK)));
-
-    //abs(angle)
+    //take absolute value
     angle=_mm_andnot_ps(SIGNMASK,angle);
+    //fmod(angle,twopi)
+    angle=_mm_sub_ps(angle,_mm_mul_ps(_mm_cvtepi32_ps(_mm_cvttps_epi32(_mm_mul_ps(angle,_mm_set1_ps(invtwopi)))),_mm_set1_ps(twopi))); //simplied SSE2 fmod, must always operate on absolute value
+    //if SSE4.1 is always available, comment the line above and uncomment the line below
+    //angle=_mm_sub_ps(angle,_mm_mul_ps(_mm_floor_ps(_mm_mul_ps(angle,_mm_set1_ps(invtwopi))),_mm_set1_ps(twopi))); //faster if SSE4.1 is always available
 
     __m128 cosangle=angle;
     cosangle=_mm_xor_ps(cosangle, _mm_and_ps(_mm_cmpge_ps(angle,_mm_set1_ps(halfpi)), _mm_xor_ps(cosangle,_mm_sub_ps(_mm_set1_ps(pi),angle))));
@@ -221,10 +218,10 @@ void FT::sincos_ps(__m128 angle, __m128 *sin, __m128 *cos){
     __m128 result=FT::cos_32s_ps(cosangle);
 
     result=_mm_xor_ps(result,_mm_and_ps(_mm_and_ps(_mm_cmpge_ps(angle,_mm_set1_ps(halfpi)),_mm_cmplt_ps(angle,_mm_set1_ps(threehalfpi))),SIGNMASK));
-
-    *sin=_mm_mul_ps(sinmultiplier,FT::sqrt_ps(_mm_sub_ps(_mm_set1_ps(1.f),_mm_mul_ps(result,result))));
-
     *cos=result;
+
+    __m128 sinmultiplier=_mm_mul_ps(anglesign,_mm_or_ps(_mm_set1_ps(1.f),_mm_and_ps(_mm_cmpgt_ps(angle,_mm_set1_ps(pi)),SIGNMASK)));
+    *sin=_mm_mul_ps(sinmultiplier,FT::sqrt_ps(_mm_sub_ps(_mm_set1_ps(1.f),_mm_mul_ps(result,result))));
 
     return;
 }
@@ -483,19 +480,16 @@ __m128 FTA::sin_ps(__m128 angle){
     return FTA::cos_ps(_mm_sub_ps(_mm_set1_ps(halfpi),angle));
 }
 void FTA::sincos_ps(__m128 angle, __m128 *sin, __m128 *cos){
+    __m128 anglesign=_mm_or_ps(_mm_set1_ps(1.f),_mm_and_ps(SIGNMASK,angle));
+
     //clamp to the range 0..2pi
 
-    //fmod(angle,twopi)
-    __m128i dividedangle=_mm_cvttps_epi32(_mm_mul_ps(angle,_mm_set1_ps(invtwopi)));
-    dividedangle=_mm_sub_epi32(dividedangle,_mm_srli_epi32(dividedangle,31)); //substract -1 if negative
-    angle=_mm_sub_ps(angle,_mm_mul_ps(_mm_cvtepi32_ps(dividedangle),_mm_set1_ps(twopi)));
-    //if SSE4.1 is always available, comment the 3 lines above and uncomment the line below
-    //angle=_mm_sub_ps(angle,_mm_mul_ps(_mm_floor_ps(_mm_mul_ps(angle,_mm_set1_ps(invtwopi))),_mm_set1_ps(twopi))); //faster if SSE4.1 is always available
-
-    __m128 sinmultiplier=_mm_xor_ps(_mm_set1_ps(1.f),_mm_and_ps(_mm_cmplt_ps(angle,_mm_set1_ps(0.f)),_mm_and_ps(_mm_cmpge_ps(angle,_mm_set1_ps(-pi)),SIGNMASK)));
-
-    //abs(angle)
+    //take absolute value
     angle=_mm_andnot_ps(SIGNMASK,angle);
+    //fmod(angle,twopi)
+    angle=_mm_sub_ps(angle,_mm_mul_ps(_mm_cvtepi32_ps(_mm_cvttps_epi32(_mm_mul_ps(angle,_mm_set1_ps(invtwopi)))),_mm_set1_ps(twopi))); //simplied SSE2 fmod, must always operate on absolute value
+    //if SSE4.1 is always available, comment the line above and uncomment the line below
+    //angle=_mm_sub_ps(angle,_mm_mul_ps(_mm_floor_ps(_mm_mul_ps(angle,_mm_set1_ps(invtwopi))),_mm_set1_ps(twopi))); //faster if SSE4.1 is always available
 
     __m128 cosangle=angle;
     cosangle=_mm_xor_ps(cosangle, _mm_and_ps(_mm_cmpge_ps(angle,_mm_set1_ps(halfpi)), _mm_xor_ps(cosangle,_mm_sub_ps(_mm_set1_ps(pi),angle))));
@@ -505,10 +499,10 @@ void FTA::sincos_ps(__m128 angle, __m128 *sin, __m128 *cos){
     __m128 result=FTA::cos_52s_ps(cosangle);
 
     result=_mm_xor_ps(result,_mm_and_ps(_mm_and_ps(_mm_cmpge_ps(angle,_mm_set1_ps(halfpi)),_mm_cmplt_ps(angle,_mm_set1_ps(threehalfpi))),SIGNMASK));
-
-    *sin=_mm_mul_ps(sinmultiplier,FTA::sqrt_ps(_mm_sub_ps(_mm_set1_ps(1.f),_mm_mul_ps(result,result))));
-
     *cos=result;
+
+    __m128 sinmultiplier=_mm_mul_ps(anglesign,_mm_or_ps(_mm_set1_ps(1.f),_mm_and_ps(_mm_cmpgt_ps(angle,_mm_set1_ps(pi)),SIGNMASK)));
+    *sin=_mm_mul_ps(sinmultiplier,FT::sqrt_ps(_mm_sub_ps(_mm_set1_ps(1.f),_mm_mul_ps(result,result))));
 
     return;
 }
