@@ -49,7 +49,11 @@
 #ifdef QT_GUI_LIB
 #include <QtGui>
 #endif
-#include <intrin.h>
+#ifdef _MSC_VER
+#include <intrin.h> 
+#else
+#include <x86intrin.h> 
+#endif
 #include <xmmintrin.h>
 #include <pmmintrin.h>
 
