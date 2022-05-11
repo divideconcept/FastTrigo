@@ -64,10 +64,7 @@ float FT::atan2(float y, float x)
             return y>0.f?atan+pi:atan-pi;
     } else {
         float atan=FT::atan(x/y);
-        if(x>0.f)
-            return y>0.f?halfpi-atan:-halfpi-atan;
-        else
-            return y>0.f?halfpi+atan:-halfpi+atan;
+        return y>0.f?halfpi-atan:(-halfpi)-atan;
     }
 }
 
@@ -340,10 +337,7 @@ float FTA::atan2(float y, float x)
             return y>0.f?atan+pi:atan-pi;
     } else {
         float atan=FTA::atan(x/y);
-        if(x>0.f)
-            return y>0.f?halfpi-atan:-halfpi-atan;
-        else
-            return y>0.f?halfpi+atan:-halfpi+atan;
+        return y>0.f?halfpi-atan:(-halfpi)-atan;
     }
 }
 
